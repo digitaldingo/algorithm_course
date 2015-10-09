@@ -1,7 +1,10 @@
+import time
+
 import numpy as np
 
 import matplotlib.pyplot as plt
 import seaborn as sns
+seapal = sns.color_palette()
 
 from IPython import embed
 
@@ -40,12 +43,39 @@ def mergesort(lst):
 
 if __name__ == "__main__":
 
-    n = 42
+    timings = 10
 
-    lst = list(range(n))
-    np.random.shuffle(lst)
-    lst = np.random.randint(0,n,n)
+    #n_list = list(range(100, 2000, 50))
+    n_list = np.logspace(2, 5, 20, dtype=int)
+    meantimes = []
+    stdtimes = []
 
-    sorted_list = mergesort(lst)
+    loop_time = time.time()
+    for n in n_list:
+
+        lst = np.random.randint(0,n,n)
+        times = []
+
+        for t in range(timings):
+            start = time.time()
+            sorted_list = mergesort(lst)
+            times.append(time.time()-start)
+
+        meantimes.append(np.mean(times))
+        stdtimes.append(np.std(times))
+
+    print("Looping took {:g} s".format(time.time()-loop_time))
+
+    fig, ax = plt.subplots()
+
+    ax.errorbar(n_list, meantimes, stdtimes, fmt='none', ecolor=seapal[0])
+    ax.plot(n_list, meantimes, ls='', marker="o", ms=6)
+
+    ax.set_title("Merge sort running time ({} repititions)".format(timings))
+    ax.set_xlabel("Array size")
+    ax.set_ylabel("Running time")
+
+    plt.tight_layout()
+    plt.show(block=False)
 
     embed()
