@@ -47,8 +47,8 @@ def complexity(n, p):
 
 if __name__ == "__main__":
 
-    timings = 20        # repetitions
-    max_npower = 20     # max size of array: 2**max_npower
+    timings = 50        # repetitions
+    max_npower = 15     # max size of array: 2**max_npower
 
     n_list = np.logspace(2, max_npower, 20, dtype=int, base=2)
     meantimes = []
@@ -75,21 +75,25 @@ if __name__ == "__main__":
     x = np.linspace(0, 2**max_npower, 100)
     y = complexity(x, p)
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(7,4))
 
     # Plot measurements:
     ax.errorbar(n_list, meantimes, stdtimes, fmt='none', ecolor=seapal[0])
-    ax.plot(n_list, meantimes, ls='', marker="o", ms=6)
+    ax.plot(n_list, meantimes, ls='', marker="o", ms=6,
+                label='Measurements')
 
     # Plot complexity:
-    ax.plot(x, y, alpha=.7)
+    ax.plot(x, y, alpha=.7, label='Theoretical complexity')
 
     ax.set_title("Merge sort running time ({} repetitions)".format(timings))
     ax.set_xlabel("Array size")
     ax.set_ylabel("Running time")
     ax.set_xscale('log', basex=2)
 
-    plt.tight_layout()
-    plt.show(block=False)
+    plt.legend(loc='upper left')
 
-    embed()
+    plt.tight_layout()
+    #plt.show(block=False)
+    plt.savefig('../../figures/week1/mergesort.svg')
+
+    #embed()
