@@ -57,10 +57,10 @@ if __name__ == "__main__":
     loop_time = time.time()
     for n in n_list:
 
-        lst = np.random.randint(0,n,n)
         times = []
 
         for t in range(timings):
+            lst = np.random.randint(0,n,n)
             start = time.time()
             sorted_list = mergesort(lst)
             times.append(time.time()-start)
