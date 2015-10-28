@@ -19,11 +19,34 @@ def partition(arr, l, r):
     arr[i-1] = arr[l]
     arr[l] = t
 
+    return i-1
 
+
+def quicksort(arr):
+    if len(arr) == 1:
+        return
+
+    p = partition(arr, 0, len(arr))
+
+    if p > 0:
+        quicksort(arr[:p])
+
+    if p < len(arr)-1:
+        quicksort(arr[p+1:])
+
+    return
 
 
 if __name__ == "__main__":
+    #np.random.seed(4)
 
-    a = np.random.randint(0, 10, 10)
+    for i in range(5):
+        a = np.random.randint(0, 10, 10)
+        #a = np.arange(10)
+        #np.random.shuffle(a)
+        print(a)
 
-    partition(a, 0, 10)
+        quicksort(a)
+        print(a)
+
+        print("--------------")
